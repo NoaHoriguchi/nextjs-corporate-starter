@@ -896,7 +896,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    slug: Attribute.UID<'api::category.category', 'name'>;
+    slug: Attribute.UID;
     articles: Attribute.Relation<
       'api::category.category',
       'oneToMany',
@@ -1039,6 +1039,8 @@ export interface ApiPagePage extends Schema.CollectionType {
     description: '';
   };
   options: {
+    increments: true;
+    timestamps: true;
     draftAndPublish: true;
   };
   pluginOptions: {
@@ -1048,6 +1050,13 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
   attributes: {
     shortName: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    metadata: Attribute.Component<'meta.metadata'> &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1086,12 +1095,6 @@ export interface ApiPagePage extends Schema.CollectionType {
         };
       }>;
     description: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    seo: Attribute.Component<'shared.seo'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
